@@ -8,3 +8,10 @@
 
 import Foundation
 
+struct WeatherData {
+    
+    var cityName: String
+    var weather: String
+    var temperature: String
+}
+

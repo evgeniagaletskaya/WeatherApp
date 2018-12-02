@@ -121,11 +121,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             if identifier == "Show Weather", let vc = segue.destination as? WeatherViewController {
-                
-                vc.city = self.city!
-                vc.weather = "Snowing"
-                vc.temperature = "-7"
-                
+               vc.loadWeatherData(from: vc.sourceURL)
             }
         }
     }
