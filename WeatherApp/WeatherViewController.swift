@@ -7,24 +7,34 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class WeatherViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateWeather()
 
     }
     
-
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var weatherLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
     
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    var city = ""
+    var weather = ""
+    var temperature = ""
+    
+    private func updateWeather() {
+        cityLabel.text = city
+        weatherLabel.text = weather
+        temperatureLabel.text = temperature
     }
-    */
-
+    
+    @IBAction func refreshWeather(_ sender: UIButton) {
+        updateWeather()
+    }
+    
 }

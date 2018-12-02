@@ -117,16 +117,18 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
         print("Error")
     }
     
-
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if let identifier = segue.identifier {
+            if identifier == "Show Weather", let vc = segue.destination as? WeatherViewController {
+                
+                vc.city = self.city!
+                vc.weather = "Snowing"
+                vc.temperature = "-7"
+                
+            }
+        }
     }
-    */
+    
 
 }
