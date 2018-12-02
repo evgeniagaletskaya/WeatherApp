@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSB-aI-SDD">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="QSB-aI-SDD">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,16 +25,12 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="shr-bE-qML">
                                 <rect key="frame" x="0.0" y="94" width="375" height="101"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ci5-HY-PMc">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Location" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="Ci5-HY-PMc">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="101"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ykK-83-xu8">
-                                        <rect key="frame" x="169" y="64" width="37" height="37"/>
-                                        <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </activityIndicatorView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Ci5-HY-PMc" secondAttribute="trailing" id="13P-vu-2a1"/>
@@ -50,6 +46,10 @@
                                     <action selector="detectLocation:" destination="BYZ-38-t0r" eventType="touchUpInside" id="bqA-OZ-WOZ"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ykK-83-xu8">
+                                <rect key="frame" x="169" y="216" width="37" height="37"/>
+                                <color key="color" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -58,19 +58,18 @@
                             </constraint>
                             <constraint firstItem="shr-bE-qML" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="7md-yj-DtS"/>
                             <constraint firstItem="shr-bE-qML" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Ir8-98-EbT"/>
+                            <constraint firstItem="ykK-83-xu8" firstAttribute="firstBaseline" secondItem="Ci5-HY-PMc" secondAttribute="baseline" constant="28.5" id="N11-rC-hX8"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="oeK-na-PXA" secondAttribute="bottom" id="P3O-W9-wJB"/>
+                            <constraint firstItem="nrB-cm-cPQ" firstAttribute="top" secondItem="ykK-83-xu8" secondAttribute="bottom" constant="22" id="RVf-7H-IzV"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="shr-bE-qML" secondAttribute="trailing" id="Yjh-8m-cPe"/>
                             <constraint firstItem="nrB-cm-cPQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZXw-mc-PJB"/>
                             <constraint firstItem="oeK-na-PXA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="c8l-7g-D93"/>
-                            <constraint firstItem="nrB-cm-cPQ" firstAttribute="top" secondItem="shr-bE-qML" secondAttribute="bottom" constant="80" id="ke6-WB-Qba">
-                                <variation key="heightClass=compact-widthClass=compact" constant="30"/>
-                            </constraint>
+                            <constraint firstItem="ykK-83-xu8" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="jYi-Tb-ov9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <variation key="heightClass=compact-widthClass=compact">
                             <mask key="constraints">
                                 <include reference="4Ye-vG-kD7"/>
-                                <include reference="ke6-WB-Qba"/>
                             </mask>
                         </variation>
                     </view>
