@@ -29,7 +29,7 @@ class WeatherViewController: UIViewController {
     
     //TODO: change city in url
     
-    var sourceURL: String = "http://api.openweathermap.org/data/2.5/weather?q=minsk&APPID=55cdb57ee7b0e907235dd7a675404756"
+    var sourceURL: URL?
     var weatherData: WeatherData?
     
     
@@ -41,7 +41,7 @@ class WeatherViewController: UIViewController {
     }
     
     @IBAction func refreshWeather(_ sender: UIButton) {
-        loadWeatherData(from: sourceURL)
+        loadWeatherData(from: self.sourceURL!.url)
     }
     
     func convertToCelsius(fahrenheit: Int) -> Int {
@@ -62,14 +62,19 @@ class WeatherViewController: UIViewController {
         activityIndicator.isHidden = true
     }
     
+    private func convertToCelsius(temperature: String) -> String {
+        let tempInCelsius = Double(temperature)! - 273.15
+        return String(format: "%.0f", tempInCelsius) + "°"
+    }
+    
     func loadWeatherData(from url: String)  {
         
         DispatchQueue.global(qos: .userInitiated).async {
             
             
-            Alamofire.request(url).responseJSON { responce in
+            Alamofire.request(url).responseJSON { response in
                 self.hideLabels()
-                switch responce.result {
+                switch response.result {
                     
                 case .success(let value):
                     let jsonData = JSON(value)
@@ -78,9 +83,9 @@ class WeatherViewController: UIViewController {
                         if key == "weather" {
                             self.weather = subJson[0]["main"].stringValue
                         }
-                            //TODO: convert to celsius
                         else if key == "main" {
-                            self.temperature = subJson["temp"].stringValue
+                            let tempInKelvin = subJson["temp"].stringValue
+                            self.temperature = self.convertToCelsius(temperature: tempInKelvin)
                         }
                         else if key == "name" {
                             self.city = subJson.stringValue
@@ -99,5 +104,4 @@ class WeatherViewController: UIViewController {
         }
         
     }
-    
 }
