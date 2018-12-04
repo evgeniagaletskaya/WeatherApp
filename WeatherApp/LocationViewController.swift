@@ -25,6 +25,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     var street: String?
     
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         currentLocationLabel.text = ""
@@ -121,7 +122,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             if identifier == "Show Weather", let vc = segue.destination as? WeatherViewController {
-                
+                vc.address = Address(country: self.country!, city: self.city!, street: self.street!)
                 vc.sourceURL = URL(forCity: self.city!)
                 vc.loadWeatherData(from: vc.sourceURL!.url)
             }

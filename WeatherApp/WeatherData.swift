@@ -10,8 +10,14 @@ import Foundation
 
 struct WeatherData {
     
-    var cityName: String
-    var weather: String
+    var time: String
     var temperature: String
+    var address: Address
+   
+    init(time: String, temperature: String, address: Address) {
+        self.time = time
+        self.temperature = temperature
+        self.address = address
+    }
 }
 
