@@ -19,29 +19,42 @@ class WeatherViewController: UIViewController {
         super.viewDidLoad()
         
         loadWeatherData()
+        configureView()
     }
     
-    @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var weatherLabel: UILabel!
-    @IBOutlet weak var temperatureLabel: UILabel!
-    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var contentView: UIView!
+    @IBOutlet weak private var cityLabel: UILabel!
+    @IBOutlet weak private var weatherLabel: UILabel!
+    @IBOutlet weak private var temperatureLabel: UILabel!
+    @IBOutlet weak private var activityIndicator: UIActivityIndicatorView!
     
+ 
+    private func configureView() {
+        
+        let backgroundImage = UIImage(named: "background")
+        
+        let imageView = UIImageView(frame: contentView.frame)
+        
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = backgroundImage
+        imageView.center = contentView.center
+        
+        contentView.addSubview(imageView)
+        self.contentView.sendSubviewToBack(imageView)
+        
+        cityLabel.textColor = UIColor.white
+        cityLabel.shadowColor = UIColor.darkGray
+        
+        weatherLabel.textColor = UIColor.white
+        weatherLabel.shadowColor = UIColor.darkGray
+        
+        temperatureLabel.textColor = UIColor.white
+        temperatureLabel.shadowColor = UIColor.darkGray
+        
+    }
     
-    
-//    var city: String?
-//    var weather: String?
-//    var temperature: String?
-//    var time: String?
-    
-    
-//    private func updateWeatherLabels() {
-//        labelsAreVisible()
-//        cityLabel.text = city
-//        weatherLabel.text = weather
-//        temperatureLabel.text = temperature
-//    }
-    
-    @IBAction func refreshWeather(_ sender: UIButton) {
+    @IBAction private func refreshWeather(_ sender: UIButton) {
         loadWeatherData()
     }
     
@@ -63,7 +76,7 @@ class WeatherViewController: UIViewController {
         return  kelvin - 273.15
     }
 
-    func loadWeatherData()  {
+    fileprivate func loadWeatherData()  {
         
         hideLabels()
         
@@ -148,4 +161,6 @@ class WeatherViewController: UIViewController {
 //            print($0.date, $0.address, $0.temperature)
 //        }
 //    }
+    
+    
 }

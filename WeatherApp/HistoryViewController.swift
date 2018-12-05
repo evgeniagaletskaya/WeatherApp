@@ -11,9 +11,9 @@ import CoreData
 
 class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak private var tableView: UITableView!
     
-    var requests = [WeatherDataEntity]()
+    private var requests = [WeatherDataEntity]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
         loadRequests()
     }
     
-    func loadRequests() {
+    private func loadRequests() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         
         let context = appDelegate.persistentContainer.viewContext
@@ -51,7 +51,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        //MARK: почему опционал только дата, как можно убрать запятую
+        
         cell.textLabel?.text = requests[indexPath.row].date!.toString() + ", " + requests[indexPath.row].temperature.toString()
         
         cell.detailTextLabel?.text = requests[indexPath.row].address

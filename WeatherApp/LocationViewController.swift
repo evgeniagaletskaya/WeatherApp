@@ -11,23 +11,42 @@ import CoreLocation
 
 class LocationViewController: UIViewController, CLLocationManagerDelegate {
 
+    
+    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var currentLocationLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showWeatherButton: UIButton!
+    @IBOutlet weak var detectLocationButton: UIButton!
+    @IBOutlet weak var historyButton: UIButton!
     
-    private var locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     private let geocoder = CLGeocoder()
-    private var placemark: CLPlacemark?
     private var address: Address?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
+    }
+    
+    private func configureView() {
         currentLocationLabel.text = ""
         activityIndicator.isHidden = true
         showWeatherButton.isHidden = true
+        
+        let backgroundImage = UIImage(named: "background")
+        let imageView = UIImageView(frame: contentView.frame)
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = backgroundImage
+        imageView.center = contentView.center
+        contentView.addSubview(imageView)
+        self.contentView.sendSubviewToBack(imageView)
+        
+        currentLocationLabel.textColor = UIColor.white
+        currentLocationLabel.shadowColor = UIColor.darkGray
+        
     }
-    
 
     @IBAction private func detectLocation(_ sender: UIButton) {
         activityIndicator.isHidden = false
@@ -36,7 +55,6 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     
     private func startLocationManager() {
         
-       
         if !Reachability.isConnectedToInternet  {
             showNoInternetAlert()
         }
@@ -123,14 +141,19 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error")
+        print("Error. \(error.localizedDescription)")
     }
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if let vc = segue.destination as? WeatherViewController {
-                vc.address = self.address
+        if let vc = segue.destination as? WeatherViewController  {
+            vc.address = self.address
+            
+            if !Reachability.isConnectedToInternet {
+                showNoInternetAlert()
+            }
+            
         }
     }
     
