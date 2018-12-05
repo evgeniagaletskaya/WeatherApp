@@ -9,11 +9,16 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import CoreData
 
 class WeatherViewController: UIViewController {
+    
+    var address: Address!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadWeatherData()
     }
     
     @IBOutlet weak var cityLabel: UILabel!
@@ -21,26 +26,23 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var address: Address?
-    
-    var city: String?
-    var weather: String?
-    var temperature: String?
-    var time: String?
-    
-    var sourceURL: URL?
-    var weatherData: WeatherData?
     
     
-    private func updateWeatherLabels() {
-        labelsAreVisible()
-        cityLabel.text = city
-        weatherLabel.text = weather
-        temperatureLabel.text = temperature
-    }
+//    var city: String?
+//    var weather: String?
+//    var temperature: String?
+//    var time: String?
+    
+    
+//    private func updateWeatherLabels() {
+//        labelsAreVisible()
+//        cityLabel.text = city
+//        weatherLabel.text = weather
+//        temperatureLabel.text = temperature
+//    }
     
     @IBAction func refreshWeather(_ sender: UIButton) {
-        loadWeatherData(from: self.sourceURL!.url)
+        loadWeatherData()
     }
     
     private func hideLabels() {
@@ -50,29 +52,22 @@ class WeatherViewController: UIViewController {
         activityIndicator.isHidden = false
     }
     
-    private func labelsAreVisible() {
+    private func showLabels() {
         cityLabel.isHidden = false
         weatherLabel.isHidden = false
         temperatureLabel.isHidden = false
         activityIndicator.isHidden = true
     }
     
-    private func convertToCelsius(kelvin: String) -> String {
-        let tempInCelsius = Double(kelvin)! - 273.15
-        return String(format: "%.0f", tempInCelsius) + "°"
+    private func convertToCelsius(kelvin: Double) -> Double {
+        return  kelvin - 273.15
     }
-    
-    private func getCurrentTime() -> String{
+
+    func loadWeatherData()  {
         
-        let currentDateTime = Date()
-    
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .medium
-        return formatter.string(from: currentDateTime)
-    }
-    
-    func loadWeatherData(from url: String)  {
+        hideLabels()
+        
+        let url = "http://api.openweathermap.org/data/2.5/weather?q=\(address.city)&APPID=55cdb57ee7b0e907235dd7a675404756"
         
         DispatchQueue.global(qos: .userInitiated).async {
             
@@ -85,27 +80,22 @@ class WeatherViewController: UIViewController {
                 case .success(let value):
                     let jsonData = JSON(value)
                     
-                    for (key, subJson):(String, JSON) in jsonData {
-                        if key == "weather" {
-                            self.weather = subJson[0]["main"].stringValue
-                        }
-                        else if key == "main" {
-                            let tempInKelvin = subJson["temp"].stringValue
-                            self.temperature = self.convertToCelsius(kelvin: tempInKelvin)
-                        }
-                        else if key == "name" {
-                            self.city = subJson.stringValue
-                        }
+                    let temp = self.convertToCelsius(kelvin: jsonData["main"]["temp"].doubleValue)
+                    let conditions = jsonData["weather"][0]["main"].stringValue
+                    
+                    let weatherData = WeatherData(date: Date(),
+                                                  temperature: temp,
+                                                  conditions: conditions,
+                                                  address: self.address)
+                    
+                    self.saveWeatherData(weatherData)
+                    
+                    DispatchQueue.main.async {
+                        self.showWeather(data: weatherData)
                     }
-                
-                    self.time = self.getCurrentTime()
-                    self.weatherData = WeatherData(time: self.time!, temperature: self.temperature!, address: self.address!)
                     
                 case .failure(let error):
                     print(error.localizedDescription)
-                }
-                DispatchQueue.main.async {
-                    self.updateWeatherLabels()
                 }
                 
             }
@@ -113,4 +103,49 @@ class WeatherViewController: UIViewController {
         }
         
     }
+    
+    private func showWeather(data: WeatherData) {
+        
+        self.cityLabel.text = data.address.city
+        self.weatherLabel.text = data.conditions
+        self.temperatureLabel.text = String(format: "%.0f", data.temperature) + "°"
+        
+        showLabels()
+    }
+    
+    private func saveWeatherData(_ weatherData: WeatherData) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        
+        let context = appDelegate.persistentContainer.viewContext
+        let weatherDataEntityDescription = NSEntityDescription.entity(forEntityName: "WeatherDataEntity", in: context)
+        
+        let weatherDataEntity = NSManagedObject(entity: weatherDataEntityDescription!, insertInto: context) as! WeatherDataEntity
+        
+        weatherDataEntity.address = weatherData.address.description
+        weatherDataEntity.temperature = weatherData.temperature
+        weatherDataEntity.date = weatherData.date
+        
+        do {
+            try context.save()
+        }
+        catch let error as NSError {
+            print("Could not save.\(error),\(error.userInfo)")
+        }
+        
+        //showAllRecords()
+    }
+    
+//    func showAllRecords() {
+//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+//
+//        let context = appDelegate.persistentContainer.viewContext
+//
+//        let fetchRequest = NSFetchRequest<WeatherDataEntity>(entityName: "WeatherDataEntity")
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+//
+//        let result = try! context.fetch(fetchRequest)
+//        result.forEach {
+//            print($0.date, $0.address, $0.temperature)
+//        }
+//    }
 }

@@ -8,15 +8,18 @@
 
 import Foundation
 
+
 struct WeatherData {
-    
-    var time: String
-    var temperature: String
+
+    var date: Date
+    var temperature: Double
+    var conditions: String
     var address: Address
-   
-    init(time: String, temperature: String, address: Address) {
-        self.time = time
+
+    init(date: Date, temperature: Double, conditions: String, address: Address) {
+        self.date = date
         self.temperature = temperature
+        self.conditions = conditions
         self.address = address
     }
 }

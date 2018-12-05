@@ -19,4 +19,8 @@ struct Address {
         self.city = city
         self.street = street
     }
+    
+    var description: String {
+        return "\(country), \(city), \(street)"
+    }
 }

@@ -16,7 +16,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var showWeatherButton: UIButton!
     
     fileprivate var locationManager = CLLocationManager()
-    fileprivate var location: CLLocation?
+    //fileprivate var location: CLLocation?
     fileprivate let geocoder = CLGeocoder()
     var placemark: CLPlacemark?
     
@@ -24,6 +24,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     var country: String?
     var street: String?
     
+    private var address: Address?
     
     
     override func viewDidLoad() {
@@ -88,7 +89,7 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func updateLocationLabel() {
-        currentLocationLabel.text = "\(country!),\(city!) \n\(street!)"
+        currentLocationLabel.text = "\(self.address!.country),\(self.address!.city) \n\(self.address!.street)"
         activityIndicator.isHidden = true
         showWeatherButton.isHidden = false
     }
@@ -101,9 +102,9 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
             
             if error == nil, let placemarks = placemarks, let placemark = placemarks.last {
                 
-                self.country = placemark.country!
-                self.city = placemark.locality!
-                self.street = placemark.thoroughfare!
+                self.address = Address(country: placemark.country!,
+                                       city: placemark.locality!,
+                                       street: placemark.thoroughfare!)
                 
                 self.updateLocationLabel()
                 
@@ -120,12 +121,9 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let identifier = segue.identifier {
-            if identifier == "Show Weather", let vc = segue.destination as? WeatherViewController {
-                vc.address = Address(country: self.country!, city: self.city!, street: self.street!)
-                vc.sourceURL = URL(forCity: self.city!)
-                vc.loadWeatherData(from: vc.sourceURL!.url)
-            }
+        
+        if let vc = segue.destination as? WeatherViewController {
+                vc.address = self.address
         }
     }
     
