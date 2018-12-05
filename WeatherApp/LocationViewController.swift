@@ -15,15 +15,9 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showWeatherButton: UIButton!
     
-    fileprivate var locationManager = CLLocationManager()
-    //fileprivate var location: CLLocation?
-    fileprivate let geocoder = CLGeocoder()
-    var placemark: CLPlacemark?
-    
-    var city: String?
-    var country: String?
-    var street: String?
-    
+    private var locationManager = CLLocationManager()
+    private let geocoder = CLGeocoder()
+    private var placemark: CLPlacemark?
     private var address: Address?
     
     
@@ -41,6 +35,11 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     private func startLocationManager() {
+        
+       
+        if !Reachability.isConnectedToInternet  {
+            showNoInternetAlert()
+        }
         
         let authorizationStatus = CLLocationManager.authorizationStatus()
         
@@ -62,6 +61,14 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
+    }
+    
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(title: "No Internet Connection",
+                                      message: "Please, check network preferences",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        present(alert,animated: true)
     }
     
     private func showLocationServicesDisabledAlert() {
