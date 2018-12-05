@@ -108,7 +108,7 @@ class WeatherViewController: UIViewController {
         
         self.cityLabel.text = data.address.city
         self.weatherLabel.text = data.conditions
-        self.temperatureLabel.text = String(format: "%.0f", data.temperature) + "°"
+        self.temperatureLabel.text = String(format: "%.0f", data.temperature) + "℃"
         
         showLabels()
     }
@@ -129,7 +129,7 @@ class WeatherViewController: UIViewController {
             try context.save()
         }
         catch let error as NSError {
-            print("Could not save.\(error),\(error.userInfo)")
+            print("Could not save. \(error),\(error.userInfo)")
         }
         
         //showAllRecords()

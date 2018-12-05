@@ -36,7 +36,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
             requests = try context.fetch(fetchRequest)
         }
         catch let error as NSError {
-            print("Could not fetch.\(error),\(error.userInfo)")
+            print("Could not fetch. \(error),\(error.userInfo)")
         }
         
         tableView.reloadData()
@@ -51,7 +51,7 @@ class HistoryViewController: UIViewController, UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        
+        //MARK: почему опционал только дата, как можно убрать запятую
         cell.textLabel?.text = requests[indexPath.row].date!.toString() + ", " + requests[indexPath.row].temperature.toString()
         
         cell.detailTextLabel?.text = requests[indexPath.row].address
