@@ -22,7 +22,6 @@ class WeatherViewController: UIViewController {
         configureView()
     }
     
-    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak private var cityLabel: UILabel!
     @IBOutlet weak private var weatherLabel: UILabel!
     @IBOutlet weak private var temperatureLabel: UILabel!
@@ -31,18 +30,6 @@ class WeatherViewController: UIViewController {
  
     private func configureView() {
         
-        let backgroundImage = UIImage(named: "background")
-        
-        let imageView = UIImageView(frame: contentView.frame)
-        
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = backgroundImage
-        imageView.center = contentView.center
-        
-        contentView.addSubview(imageView)
-        self.contentView.sendSubviewToBack(imageView)
-        
         cityLabel.textColor = UIColor.white
         cityLabel.shadowColor = UIColor.darkGray
         
@@ -50,8 +37,7 @@ class WeatherViewController: UIViewController {
         weatherLabel.shadowColor = UIColor.darkGray
         
         temperatureLabel.textColor = UIColor.white
-        temperatureLabel.shadowColor = UIColor.darkGray
-        
+        temperatureLabel.shadowColor = UIColor.darkGray 
     }
     
     @IBAction private func refreshWeather(_ sender: UIButton) {
@@ -76,7 +62,7 @@ class WeatherViewController: UIViewController {
         return  kelvin - 273.15
     }
 
-    fileprivate func loadWeatherData()  {
+    private func loadWeatherData()  {
         
         hideLabels()
         
@@ -145,22 +131,6 @@ class WeatherViewController: UIViewController {
             print("Could not save. \(error),\(error.userInfo)")
         }
         
-        //showAllRecords()
     }
-    
-//    func showAllRecords() {
-//        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-//
-//        let context = appDelegate.persistentContainer.viewContext
-//
-//        let fetchRequest = NSFetchRequest<WeatherDataEntity>(entityName: "WeatherDataEntity")
-//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
-//
-//        let result = try! context.fetch(fetchRequest)
-//        result.forEach {
-//            print($0.date, $0.address, $0.temperature)
-//        }
-//    }
-    
     
 }

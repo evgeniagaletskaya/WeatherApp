@@ -11,8 +11,6 @@ import CoreLocation
 
 class LocationViewController: UIViewController, CLLocationManagerDelegate {
 
-    
-    @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var currentLocationLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet weak var showWeatherButton: UIButton!
@@ -33,15 +31,6 @@ class LocationViewController: UIViewController, CLLocationManagerDelegate {
         currentLocationLabel.text = ""
         activityIndicator.isHidden = true
         showWeatherButton.isHidden = true
-        
-        let backgroundImage = UIImage(named: "background")
-        let imageView = UIImageView(frame: contentView.frame)
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.image = backgroundImage
-        imageView.center = contentView.center
-        contentView.addSubview(imageView)
-        self.contentView.sendSubviewToBack(imageView)
         
         currentLocationLabel.textColor = UIColor.white
         currentLocationLabel.shadowColor = UIColor.darkGray
