@@ -90,9 +90,9 @@
 			isa = PBXGroup;
 			children = (
 				3FB9C2FE21B2896100B1A2E5 /* Main.storyboard */,
-				3F1AB61F21B69FBA00A080B6 /* HistoryViewController.swift */,
-				3F240AE521B3F4E7009E2E50 /* WeatherViewController.swift */,
 				3FB9C31121B29A5200B1A2E5 /* LocationViewController.swift */,
+				3F240AE521B3F4E7009E2E50 /* WeatherViewController.swift */,
+				3F1AB61F21B69FBA00A080B6 /* HistoryViewController.swift */,
 				3FF77B2621B7D81500720BA8 /* Reachability.swift */,
 				3F671B6821B68318006DC1B9 /* Address.swift */,
 				3F3ECD6B21B3FD6700E29667 /* WeatherData.swift */,
